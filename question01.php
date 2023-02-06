@@ -47,6 +47,6 @@ $Nissan = new Car('nissan', 7, 100, 20);
 $Ferrari = new Car('ferrari', 2, 300, 50);
 
 //デバッグ環境構築　→　テスト＆デバッグ実行
-
+//ok
 
 ?>
