@@ -21,17 +21,19 @@ class Car {
 }
 
 //Ferrariクラス
-class Ferrari extends Car(){
+class Ferrari extends Car{
     //情報
-    $this->name
+    
 
     //リフトダウン
 
 
     //リフトアップ
 
-
 }
+
+
+
 
 
 ?>
