@@ -4,10 +4,10 @@
 //Carクラス
 class Car {
 
-    private $name;
-    private $capacity;
-    private $price;
-    private $speed;
+    protected $name;
+    protected $capacity;
+    protected $price;
+    protected $speed;
 
     //アクセル
     function accelerator(){
@@ -34,19 +34,17 @@ class Car {
     }
 
 }
-
+//
 //問題文を満たすように、任意の数字を渡す
-
+//
 //Honda
 $Honda = new Car('honda', 7, 150, 20,);
-
+//
 //Nissan
 $Nissan = new Car('nissan', 7, 100, 20);
-
+//
 //Ferrari
 $Ferrari = new Car('ferrari', 2, 300, 50);
-
-//デバッグ環境構築　→　テスト＆デバッグ実行
+//
 //ok
-
 ?>
