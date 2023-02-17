@@ -107,13 +107,8 @@ $ferrari = new Car('ferrari', 2, rand(351, 500), 50);
 $result = $ferrari->calculation();
 
 //Toyota
-class Toyota extends Car{
-    //
-    //価格を元に、加速度を求める
-    
-    //
-}
-$toyota = new Toyota('toyota', 5, rand(100, 250), 20);
+$random = rand(200, 300);
+$toyota = new Car('toyota', 5, $random, 1.5 * ($random / 10));
 $result = $toyota->calculation();
 
 //ループ処理判定用FLG：ゴールしていない車がいる限り1
@@ -158,7 +153,7 @@ while($flg == 1):
     Commentary("Nissan",$arrCar[1][1]);
     Commentary("Ferrari",$arrCar[2][1]);
     Commentary("Toyota",$arrCar[3][1]);
-    //
+    
     //確認→FLG更新
     if ($arrCar[0][1] <= 0 && $arrCar[1][1] <= 0 && $arrCar[2][1] <= 0 && $arrCar[3][1] <= 0) {
         $flg = 0;
