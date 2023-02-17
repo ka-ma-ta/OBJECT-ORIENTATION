@@ -1,81 +1,65 @@
 <?php  
-//
 //Carクラス
 class Car {
-    //
-    protected $name;
-    protected $capacity;
-    protected $price;
-    protected $speed;
-    //
+    
+    public $name;
+    public $capacity;
+    public $price;
+    public $speed;
+    
     //アクセル
     function accelerator(){
-        //
+        //ここでは無し
     }
-    //
+    
     //ブレーキ
     function brake(){
-        //
+        //ここでは無し
     }
-    //
-    //結果を出力する関数
+    
+    //初期値をセット
     function __construct($name, $capacity, $price, $speed){
-        //改行する、シングルクォーテーションorダブルクォーテーションに注意
-        echo "車種名：", $name, "\n";
-        echo "--定員：", $capacity, "人\n";
-        echo "--価格：", $price, "万円\n";
-        echo "--加速：", $speed, "m/s\n";
-        echo "\n";
-        echo "--アクセル：あり\n";
-        echo "--ブレーキ：あり\n";
-        //echo "\n";
-        echo "\n";
-        //
+        $this->name = $name;
+        $this->capacity = $capacity;
+        $this->price = $price;
+        $this->speed = $speed;
     }
-    //
-    function Calculation($num, $amount){
-        //
-        //計算
-        $total = $num*$amount;
-        //
-        //配列で返す(合計金額, 台数)
-        return array($total, $num);
-        //
-    }
-    //
 }
-//
-$CarModel = [
-    ['honda', 7, rand(251, 350), 20],  //Honda　普通
-    ['nissan', 5, rand(100, 250), 20],  //Nissan　安い
-    ['ferrari', 2, rand(351, 500), 50]  //Ferrari　高い
-];
-//
-$arrNum = [];
-$arrTotal = [];
-//
-//ループ：車の種類数繰り返す
-for($i=0; $i<count($CarModel); $i++){
-    //インスタンス作成、基本情報表示
-    $SubCar = new Car($CarModel[$i][0], $CarModel[$i][1], $CarModel[$i][2], $CarModel[$i][3]);
-    //
-    //計算、生産台数、金額を表示
-    $result = $SubCar->Calculation(rand(10, 50), $CarModel[$i][2]);  //台数：10~50台
-    //
-    echo "--生産台数：", $result[1], "台\n";
-    echo "--金額：", $result[0], "万円\n";
+
+//結果を出力する関数
+function output($proName, $proNnumber, $proPrice){
+    echo $proName, "\n";
+    echo "生産台数：", $proNnumber, "台\n";
+    echo "金額：", $proPrice, "万円\n";
     echo "\n";
-    echo "\n";
-    echo "\n";
-    //
-    //配列に追加しておく
-    $arrNum[] = $result[1];
-    $arrTotal[] = $result[0];
-    //
 }
-//
-//計算
+
+//配列
+$arrNum = [];  //生産台数
+$arrTotal = [];  //生産金額
+
+//Honda
+$random = rand(10, 50);
+$honda = new Car('honda', 7, rand(251, 350), 20,);
+output($honda->name, $random, $honda->price);
+$arrNum[] = $random;
+$arrTotal[] = $random * $honda->price;
+
+//Nissan
+$random = rand(10, 50);
+$nissan = new Car('nissan', 5, rand(100, 250), 20);
+output($nissan->name, $random, $nissan->price);
+$arrNum[] = $random;
+$arrTotal[] = $random * $nissan->price;
+
+//Ferrari
+$random = rand(10, 50);
+$ferrari = new Car('ferrari', 2, rand(351, 500), 50);
+output($ferrari->name, $random, $ferrari->price);
+$arrNum[] = $random;
+$arrTotal[] = $random * $ferrari->price;
+
+//計算,表示
+echo "\n";
 echo "合計金額：", array_sum($arrTotal), "万円\n";
 echo "平均金額：", array_sum($arrTotal)/array_sum($arrNum), "万円\n";
-//
-?>

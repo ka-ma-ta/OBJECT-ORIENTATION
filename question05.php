@@ -11,8 +11,14 @@ class Car {
     //
     //アクセル
     function Accelerator($RemaingDistance, $speed){
-        //距離-加速度*10秒
-        return $RemaingDistance-$speed*10;
+        //
+        if ($RemaingDistance>0) {
+            //距離-加速度*10秒
+            return $RemaingDistance-$speed*10;
+        } else {
+            //返す
+            return $RemaingDistance;
+        }        
         //
     }
     //
@@ -73,22 +79,33 @@ class Car {
 //距離：任意
 $distance = 1000;  //単位：メートル
 //
-//配列：車名 => 残りの距離
+//配列：車名,残りの距離,加速性能
 $arrCar = [
-    ["Honda",1000],
-    ["Nissan",1000],
-    ["Ferrari",1000],
-    ["Toyota",1000],
+    ["Honda",1000,0],
+    ["Nissan",1000,0],
+    ["Ferrari",1000,0],
+    ["Toyota",1000,0],
 ];
 //
 //配列：順位
 $arrRank = [];
+//
+//途中経過表示用関数
+function Commentary($subname, $subdistance){
+    if ($subdistance>0) {
+        echo $subname,"：後",$subdistance,"m\n";
+    } else {
+        echo $subname,"：ゴール済\n";
+
+    }
+}
 //
 //インスタンス作成用
 //Honda
 $Honda = new Car('honda', 7, rand(251, 350), 20);  //車種名,定員,価格,加速度
 $return = $Honda->Ride(7, 20);  //乗車人数,低下率,加速性能
 $Honda->Result('honda',$return[2]);
+$arrCar[0][2] = $return[2];
 //
 //Nissan
 class Nissan extends Car{
@@ -110,26 +127,27 @@ $Nissan = new Nissan('nissan', 5, rand(100, 250), 20);
 $return = $Nissan->Ride(5, 20);
 $return_sub = $Nissan->Defect(20, $return[2]);
 $Nissan->Result('nissan',$return_sub);
+$arrCar[1][2] = $return_sub;
 //
 //
 //Ferrari
 $Ferrari = new Car('ferrari', 2, 300, 50);
 $return = $Ferrari->Ride(2, 50);
 $Ferrari->Result('ferrari',$return[2]);
+$arrCar[2][2] = $return[2];
 //
-/* 
 //Toyota
 class Toyota extends Car{
     //
     //価格を元に、加速度を求める
-    return 
+    
     //
 }
-$Toyota = new Car('toyota', 5, 300, 50);
-$return = $Ferrari->Ride(2, 50);
-$Ferrari->Result($return[0],$return[1],$return[2]);
+$Toyota = new Toyota('toyota', 5, 300, 50);
+$return = $Toyota->Ride(2, 50);
+$Toyota->Result('toyota',$return[2]);
+$arrCar[2][2] = $return[2];
 //
-*/
 //ループ処理判定用のFLG：ゴールしていない車がいる限り1
 $FLG = 1;
 //
@@ -137,45 +155,48 @@ $FLG = 1;
 echo "\n----------レース開始----------\n\n";
 //
 //ループ
-while($FLG === 1):
+while($FLG == 1):
+//for ($i=0; $i < 10 ; $i++) { 
+    # code...
     //
-    for($i=0; $i<4; $i++){
-        //
-        //honda
-        if (rand(1,2)===1) {
-            
-        } else {
-            # code...
-        }
-        
-        //
-        //nissan
+    //honda
+    if (rand(1,3)!=1) {
+        $arrCar[0][1] = $Honda->Accelerator($arrCar[0][1],$arrCar[0][2]);
+    } else {
+        $arrCar[0][1] = $Honda->Brake($arrCar[0][1]);
+    }    
+    //
+    //nissan
+    if (rand(1,3)!=1) {
+        $arrCar[1][1] = $Nissan->Accelerator($arrCar[1][1],$arrCar[1][2]);
+    } else {
+        $arrCar[1][1] = $Nissan->Brake($arrCar[1][1]);
+    }   
+    //
+    //ferrari
+    if (rand(1,3)!=1) {
+        $arrCar[2][1] = $Ferrari->Accelerator($arrCar[2][1],$arrCar[2][2]);
+    } else {
+        $arrCar[2][1] = $Ferrari->Brake($arrCar[2][1]);
+    }   
+    //
+    //toyota
 
-        //
-        //ferrari
-
-        //
-        //toyota
-
-        //
-        if($arrCar[$i][1]>0){
-            //
-            if (rand(1, 2)===1) {
-                
-            }else {
-                
-            }
-            //
-            echo $arrCar[$i][0],"：後xxxm\n";
-        }else{
-            echo $arrCar[$i][0],"：ゴール済み\n";
-        }
-    }
+    //
+    //途中経過
+    echo "\n";
+    Commentary("Honda",$arrCar[0][1]);
+    Commentary("Nissan",$arrCar[1][1]);
+    Commentary("Ferrari",$arrCar[2][1]);
+    Commentary("Toyota",$arrCar[3][1]);
     //
     //確認→FLG更新
-    //if (condition) {
+    if ($arrCar[0][1]<=0 && $arrCar[1][1]<=0 &&$arrCar[2][1]<=0) {
         $FLG = 0;
-    //}
+    }
+    //
+    //$FLG = 0;
+//}
     //
 endwhile;
 //

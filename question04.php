@@ -1,102 +1,87 @@
 <?php  
-//
 //Carクラス
 class Car {
-    //
-    //プロパティ
-    protected $name;
-    protected $capacity;
-    protected $price;
-    protected $speed;
-    //
+    
+    public $name;
+    public $capacity;
+    public $price;
+    public $speed;
+    
     //アクセル
-    function Accelerator(){
-        //
+    function accelerator(){
+        //ここでは無し
     }
-    //
+    
     //ブレーキ
-    function Brake(){
-        //
+    function brake(){
+        //ここでは無し
     }
-    //
-    //表示：基本情報
+
+    //初期値をセット
     function __construct($name, $capacity, $price, $speed){
-        //改行する、シングルクォーテーションorダブルクォーテーションに注意
-        echo "車種名：", $name, "\n";
-        echo "--定員：", $capacity, "人\n";
-        echo "--価格：", $price, "万円\n";
-        echo "--加速：", $speed, "m/s\n";
-        echo "\n";
-        echo "--アクセル：あり\n";
-        echo "--ブレーキ：あり\n";
-        //echo "\n";
-        echo "\n";
-        //
+        $this->name = $name;
+        $this->capacity = $capacity;
+        $this->price = $price;
+        $this->speed = $speed;
     }
-    //
+
     //計算：乗車人数→低下率→加速性能
-    function Ride($capacity, $speed){
-        //
+    function calculation(){
         //乗車人数
-        $ridenum = rand(1, $capacity);  //1~定員
-        //
+        $rideNum = rand(1, $this->capacity);  //1~定員
+
         //低下率
-        $rate = $ridenum*0.05;
-        //
+        $rate = $rideNum * 0.05;
+
         //加速性能
-        $acc_perfomance = $speed*(1-$rate);
-        //
+        $this->speed = $this->speed * (1-$rate);
+
         //返す
-        return array($ridenum,$rate,$acc_perfomance);
-        //
-    }   
-    //
-    //
-    //表示：結果
-    function Result($totalNum, $lowrate, $acceleration){
-    //function Result($acceleration){
-        //
-        echo "※計算結果※\n";
-        echo "--乗車人数：", $totalNum, "人\n";
-        echo "--低下率：", $lowrate, "%\n";
-        echo "--加速性能：", $acceleration, "m/s\n";
-        echo "\n\n\n";
-        //
-    }
-    //
+        return [$rideNum, $rate * 100];
+    } 
 }
-//
+
+//表示：結果
+function output($reName, $relNum, $reRate, $reSpeed){
+echo $reName, "\n";
+echo "--乗車人数：", $relNum, "人\n";
+echo "--低下率：", $reRate, "%\n";
+echo "--加速性能：", $reSpeed, "m/s\n";
+echo "\n\n";
+}
+
 //インスタンス作成用
 //Honda
 $Honda = new Car('honda', 7, rand(251, 350), 20);  //車種名,定員,価格,加速度
-$return = $Honda->Ride(7, 20);
-$Honda->Result($return[0],$return[1],$return[2]);
-//
+$result = $Honda->calculation();
+output($Honda->name, $result[0], $result[1], $Honda->speed);
+
 //Nissan
 class Nissan extends Car{
-    //
-    //計算：性能の60%
-    function Defect($speed, $lowrate){
-        //
-        //返す：60%以上かそれ以外か
-        if($speed*0.6 < $lowrate){
-            return $speed*0.6;
-        }else{
-            $lowrate;
+    function calculation(){
+        //乗車人数
+        $rideNum = rand(1, $this->capacity);  //1~定員
+
+        //低下率
+        $rate = $rideNum * 0.05;
+
+        //Maxが性能の60%
+        if ($rate < 0.4) {
+            $rate = 0.4;
         }
-        //
-    }
-    //
+
+        //加速性能
+        $this->speed = $this->speed * (1-$rate);
+
+        //返す
+        return [$rideNum, $rate * 100];
+    } 
 }
 $Nissan = new Nissan('nissan', 5, rand(100, 250), 20);
-$return = $Nissan->Ride(5, 20);
-$return_sub = $Nissan->Defect(20, $return[2]);
-$Nissan->Result($return[0],$return[1],$return_sub);
-//
-//
+$result = $Nissan->calculation();
+output($Nissan->name, $result[0], $result[1], $Nissan->speed);
+
 //Ferrari
-$Ferrari = new Car('ferrari', 2, 300, 50);
-$return = $Ferrari->Ride(2, 50);
-$Ferrari->Result($return[0],$return[1],$return[2]);
-//
-?>
+$Ferrari = new Car('ferrari', 2, rand(351, 500), 50);
+$result = $Ferrari->calculation();
+output($Ferrari->name, $result[0], $result[1], $Ferrari->speed);
