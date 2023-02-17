@@ -98,6 +98,5 @@ class Ferrari extends Car{
 $Ferrari = new Ferrari('ferrari', 2, 300, 50);
 $Ferrari->ChangeHeight(50);  //ここ！！
 //
-//処理まとめる、変数の呼び出し見直す
 //
 ?>

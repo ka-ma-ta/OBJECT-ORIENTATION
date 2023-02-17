@@ -88,8 +88,8 @@ class Nissan extends Car{
     }
     //
 }
-$Nissan = new Nissan('nissan', 7, rand(100, 250), 20);
-$return = $Nissan->Ride(7, 20);
+$Nissan = new Nissan('nissan', 5, rand(100, 250), 20);
+$return = $Nissan->Ride(5, 20);
 $return_sub = $Nissan->Defect(20, $return[2]);
 $Nissan->Result($return[0],$return[1],$return_sub);
 //
