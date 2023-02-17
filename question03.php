@@ -3,10 +3,10 @@
 //Carクラス
 class Car {
     //
-    private $name;
-    private $capacity;
-    private $price;
-    private $speed;
+    protected $name;
+    protected $capacity;
+    protected $price;
+    protected $speed;
     //
     //アクセル
     function accelerator(){

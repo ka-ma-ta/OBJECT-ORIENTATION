@@ -41,7 +41,7 @@ class Car {
 $Honda = new Car('honda', 7, 150, 20,);
 //
 //Nissan
-$Nissan = new Car('nissan', 7, 100, 20);
+$Nissan = new Car('nissan', 5, 100, 20);
 //
 //Ferrari
 $Ferrari = new Car('ferrari', 2, 300, 50);
