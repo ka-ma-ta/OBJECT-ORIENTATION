@@ -52,9 +52,9 @@ echo "\n\n";
 
 //インスタンス作成用
 //Honda
-$Honda = new Car('honda', 7, rand(251, 350), 20);  //車種名,定員,価格,加速度
-$result = $Honda->calculation();
-output($Honda->name, $result[0], $result[1], $Honda->speed);
+$honda = new Car('honda', 7, rand(251, 350), 20);  //車種名,定員,価格,加速度
+$result = $honda->calculation();
+output($honda->name, $result[0], $result[1], $honda->speed);
 
 //Nissan
 class Nissan extends Car{
@@ -82,6 +82,6 @@ $result = $Nissan->calculation();
 output($Nissan->name, $result[0], $result[1], $Nissan->speed);
 
 //Ferrari
-$Ferrari = new Car('ferrari', 2, rand(351, 500), 50);
-$result = $Ferrari->calculation();
-output($Ferrari->name, $result[0], $result[1], $Ferrari->speed);
+$ferrari = new Car('ferrari', 2, rand(351, 500), 50);
+$fesult = $ferrari->calculation();
+output($ferrari->name, $result[0], $result[1], $ferrari->speed);
