@@ -47,7 +47,7 @@ class Car {
 //
 $CarModel = [
     ['honda', 7, rand(251, 350), 20],  //Honda　普通
-    ['nissan', 7, rand(100, 250), 20],  //Nissan　安い
+    ['nissan', 5, rand(100, 250), 20],  //Nissan　安い
     ['ferrari', 2, rand(351, 500), 50]  //Ferrari　高い
 ];
 //
