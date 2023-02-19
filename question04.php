@@ -65,7 +65,7 @@ class Nissan extends Car{
         //低下率
         $rate = $rideNum * 0.05;
 
-        //Maxが性能の60%
+        //Maxが性能の60% → 低下率は最低でも40%
         if ($rate < 0.4) {
             $rate = 0.4;
         }
