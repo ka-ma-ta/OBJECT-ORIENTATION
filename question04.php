@@ -82,6 +82,33 @@ $result = $Nissan->calculation();
 output($Nissan->name, $result[0], $result[1], $Nissan->speed);
 
 //Ferrari
-$ferrari = new Car('ferrari', 2, rand(351, 500), 50);
-$fesult = $ferrari->calculation();
+class Ferrari extends Car{
+
+    public $height = 0;
+
+    //関数：リフトアップ
+    function liftUp(){
+        if ($this->height === 0) {
+            $this->height = 40;
+            $this->speed = $this->speed*0.8;
+            return "リフトアップ";
+        } else {
+            return "リフトアップ済み";
+        }        
+    }
+
+    //関数：リフトダウン
+    function liftDown(){
+        if ($this->height === 40) {
+            $this->height = 0;
+            $this->speed = $this->speed/0.8;
+            return "リフトダウン";
+        } else {
+            return "リフトダウン済み";
+        }  
+    }
+}
+$ferrari = new Ferrari('ferrari', 2, rand(351, 500), 50);
+$ferrari->liftUp();
+$result = $ferrari->calculation();
 output($ferrari->name, $result[0], $result[1], $ferrari->speed);
