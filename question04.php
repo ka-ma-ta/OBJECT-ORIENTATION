@@ -8,17 +8,17 @@ class Car {
     public $speed;
     
     //アクセル
-    function accelerator(){
+    public function accelerator(){
         //ここでは無し
     }
     
     //ブレーキ
-    function brake(){
+    public function brake(){
         //ここでは無し
     }
 
     //初期値をセット
-    function __construct($name, $capacity, $price, $speed){
+    public function __construct($name, $capacity, $price, $speed){
         $this->name = $name;
         $this->capacity = $capacity;
         $this->price = $price;
@@ -26,7 +26,7 @@ class Car {
     }
 
     //計算：乗車人数→低下率→加速性能
-    function calculation(){
+    public function calculation(){
         //乗車人数
         $rideNum = rand(1, $this->capacity);  //1~定員
 
@@ -58,7 +58,7 @@ output($honda->name, $result[0], $result[1], $honda->speed);
 
 //Nissan
 class Nissan extends Car{
-    function calculation(){
+    public function calculation(){
         //乗車人数
         $rideNum = rand(1, $this->capacity);  //1~定員
 
@@ -87,7 +87,7 @@ class Ferrari extends Car{
     public $height = 0;
 
     //関数：リフトアップ
-    function liftUp(){
+    public function liftUp(){
         if ($this->height === 0) {
             $this->height = 40;
             $this->speed = $this->speed*0.8;
@@ -98,7 +98,7 @@ class Ferrari extends Car{
     }
 
     //関数：リフトダウン
-    function liftDown(){
+    public function liftDown(){
         if ($this->height === 40) {
             $this->height = 0;
             $this->speed = $this->speed/0.8;

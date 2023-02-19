@@ -8,17 +8,17 @@ class Car {
     public $speed;
     
     //アクセル
-    function accelerator(){
+    public function accelerator(){
         //ここでは無し
     }
     
     //ブレーキ
-    function brake(){
+    public function brake(){
         //ここでは無し
     }
     
     //初期値をセット
-    function __construct($name, $capacity, $price, $speed){
+    public function __construct($name, $capacity, $price, $speed){
         $this->name = $name;
         $this->capacity = $capacity;
         $this->price = $price;

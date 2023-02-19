@@ -8,12 +8,12 @@ class Car {
     public $speed;
     
     //アクセル
-    function accelerator(){
+    public function accelerator(){
         //ここでは無し
     }
     
     //ブレーキ
-    function brake(){
+    public function brake(){
         //ここでは無し
     }
 
@@ -32,7 +32,7 @@ class Ferrari extends Car{
     public $height = 0;
 
     //関数：リフトアップ
-    function liftUp(){
+    public function liftUp(){
         if ($this->height === 0) {
             $this->height = 40;
             $this->speed = $this->speed*0.8;
@@ -43,7 +43,7 @@ class Ferrari extends Car{
     }
 
     //関数：リフトダウン
-    function liftDown(){
+    public function liftDown(){
         if ($this->height === 40) {
             $this->height = 0;
             $this->speed = $this->speed/0.8;

@@ -8,7 +8,7 @@ class Car {
     public $speed;
     
     //アクセル
-    function accelerator($subDistance){
+    public function accelerator($subDistance){
         if ($subDistance>0) {
             //距離-加速度*10秒
             return $subDistance-$this->speed*10;
@@ -19,13 +19,13 @@ class Car {
     }
 
     //ブレーキ
-    function brake($subDistance){
+    public function brake($subDistance){
         //何もしない
         return $subDistance;
     }
 
     //初期値をセット
-    function __construct($name, $capacity, $price, $speed){
+    public function __construct($name, $capacity, $price, $speed){
         $this->name = $name;
         $this->capacity = $capacity;
         $this->price = $price;
@@ -34,7 +34,7 @@ class Car {
 
 
     //計算：乗車人数→低下率→加速性能
-    function calculation(){
+    public function calculation(){
         //乗車人数
         $rideNum = rand(1, $this->capacity);  //1~定員
 
@@ -54,10 +54,10 @@ $distance = 1000;  //単位：メートル
 
 //配列：車名,残りの距離
 $arrCar = [
-    ["Honda",1000],
-    ["Nissan",1000],
-    ["Ferrari",1000],
-    ["Toyota",1000],
+    ["Honda", 1000],
+    ["Nissan", 1000],
+    ["Ferrari", 1000],
+    ["Toyota", 1000],
 ];
 
 //途中経過表示用関数
@@ -77,7 +77,7 @@ $result = $honda->calculation();
 
 //Nissan
 class Nissan extends Car{
-    function calculation(){
+    public function calculation(){
         //乗車人数
         $rideNum = rand(1, $this->capacity);  //1~定員
 
@@ -105,10 +105,10 @@ class Ferrari extends Car{
     public $height = 0;
 
     //関数：リフトアップ
-    function liftUp(){
+    public function liftUp(){
         if ($this->height === 0) {
             $this->height = 40;
-            $this->speed = $this->speed*0.8;
+            $this->speed = $this->speed * 0.8;
             return "リフトアップ";
         } else {
             return "リフトアップ済み";
@@ -116,10 +116,10 @@ class Ferrari extends Car{
     }
 
     //関数：リフトダウン
-    function liftDown(){
+    public function liftDown(){
         if ($this->height === 40) {
             $this->height = 0;
-            $this->speed = $this->speed/0.8;
+            $this->speed = $this->speed / 0.8;
             return "リフトダウン";
         } else {
             return "リフトダウン済み";
@@ -145,7 +145,7 @@ echo "\n----------レース開始----------\n\n";
 $count = 1;
 
 //ループ：全車がゴールするまで
-while($flg == 1):
+while ($flg == 1):
     //honda
     if (rand(1,3)!=1) {
         $arrCar[0][1] = $honda->accelerator($arrCar[0][1]);
