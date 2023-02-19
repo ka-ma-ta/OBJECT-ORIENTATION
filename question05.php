@@ -60,9 +60,6 @@ $arrCar = [
     ["Toyota",1000],
 ];
 
-//配列：順位
-$arrRank = [];
-
 //途中経過表示用関数
 function Commentary($subname, $subdistance){
     if ($subdistance>0) {
@@ -103,12 +100,39 @@ $nissan = new Nissan('nissan', 5, rand(100, 250), 20);
 $result = $nissan->calculation();
 
 //Ferrari
-$ferrari = new Car('ferrari', 2, rand(351, 500), 50);
+class Ferrari extends Car{
+
+    public $height = 0;
+
+    //関数：リフトアップ
+    function liftUp(){
+        if ($this->height === 0) {
+            $this->height = 40;
+            $this->speed = $this->speed*0.8;
+            return "リフトアップ";
+        } else {
+            return "リフトアップ済み";
+        }        
+    }
+
+    //関数：リフトダウン
+    function liftDown(){
+        if ($this->height === 40) {
+            $this->height = 0;
+            $this->speed = $this->speed/0.8;
+            return "リフトダウン";
+        } else {
+            return "リフトダウン済み";
+        }  
+    }
+}
+$ferrari = new Ferrari('ferrari', 2, rand(351, 500), 50);
+$ferrari->liftUp();
 $result = $ferrari->calculation();
 
 //Toyota
 $random = rand(200, 300);
-$toyota = new Car('toyota', 5, $random, 1.5 * ($random / 10));
+$toyota = new Car('toyota', 5, $random, 1.5 * ($random / 10));  //加速性能=1.5*(価格/10)
 $result = $toyota->calculation();
 
 //ループ処理判定用FLG：ゴールしていない車がいる限り1
@@ -116,6 +140,9 @@ $flg = 1;
 
 //スタート
 echo "\n----------レース開始----------\n\n";
+
+//回数
+$count = 1;
 
 //ループ：全車がゴールするまで
 while($flg == 1):
@@ -154,19 +181,15 @@ while($flg == 1):
     Commentary("Ferrari",$arrCar[2][1]);
     Commentary("Toyota",$arrCar[3][1]);
     
-    //確認→FLG更新
+    //確認：全車ゴールしたらFLG更新
     if ($arrCar[0][1] <= 0 && $arrCar[1][1] <= 0 && $arrCar[2][1] <= 0 && $arrCar[3][1] <= 0) {
         $flg = 0;
     }
 
-endwhile;
+    //回数更新
+    $count = $count + 1;
 
-//結果表示
-echo "\n";
-echo "1位：\n";
-echo "2位：\n";
-echo "3位：\n";
-echo "4位：\n";
+endwhile;
 
 //終了
 echo "\n----------レース終了----------\n\n";
