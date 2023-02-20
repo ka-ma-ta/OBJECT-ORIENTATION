@@ -77,9 +77,9 @@ class Nissan extends Car{
         return [$rideNum, $rate * 100];
     } 
 }
-$Nissan = new Nissan('nissan', 5, rand(100, 250), 20);
-$result = $Nissan->calculation();
-output($Nissan->name, $result[0], $result[1], $Nissan->speed);
+$nissan = new Nissan('nissan', 5, rand(100, 250), 20);
+$result = $nissan->calculation();
+output($nissan->name, $result[0], $result[1], $nissan->speed);
 
 //Ferrari
 class Ferrari extends Car{
