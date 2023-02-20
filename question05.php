@@ -32,7 +32,6 @@ class Car {
         $this->speed = $speed;
     }
 
-
     //計算：乗車人数→低下率→加速性能
     public function calculation(){
         //乗車人数
@@ -144,9 +143,10 @@ echo "\n----------レース開始----------\n\n";
 $count = 1;
 
 //ループ：全車がゴールするまで
+ //アクセルの確立2/3, ブレーキの確立1/3
 while ($flg == 1):
     //honda
-    if (rand(1,3)!=1) {
+    if (rand(1,3)!=1) { 
         $arrCar[0]["dis"] = $honda->accelerator($arrCar[0]["dis"]);
     } else {
         $arrCar[0]["dis"] = $honda->brake($arrCar[0]["dis"]);
@@ -196,7 +196,7 @@ while ($flg == 1):
     Commentary("Ferrari", $arrCar[2]["dis"]);
     Commentary("Toyota", $arrCar[3]["dis"]);
     
-    //確認：全車ゴールしたらFLG更新
+    //確認：全車ゴールしたらFLG更新→ループ終了
     if ($arrCar[0]["dis"] <= 0 && $arrCar[1]["dis"] <= 0 && $arrCar[2]["dis"] <= 0 && $arrCar[3]["dis"] <= 0) {
         $flg = 0;
     }
@@ -209,13 +209,12 @@ endwhile;
 //配列の並び変え
 array_multisort(array_column($arrCar, "count"), SORT_ASC, $arrCar);
 
+//終了
+echo "\n----------レース終了----------\n\n";
 
 //結果表示
-echo "\n\n順位\n";
+echo "順位\n";
 echo "1位：", $arrCar[0]["name"], "\n";
 echo "2位：", $arrCar[1]["name"], "\n";
 echo "3位：", $arrCar[2]["name"], "\n";
 echo "4位：", $arrCar[3]["name"], "\n";
-
-//終了
-echo "\n----------レース終了----------\n\n";
