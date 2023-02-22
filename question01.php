@@ -39,7 +39,35 @@ function output($name, $capacity, $price, $speed){
     echo "\n";
 }
 
-//問題文を満たすように、任意の数字を渡す
+//問題文を満たすように、任意の値を使用
+$arrCar = [
+    [
+        "name" => "honda",
+        "capacity" => 7,
+        "price" => 150,
+        "speed" => 20,
+    ],
+    [
+        "name" => "nissan",
+        "capacity" => 5,
+        "price" => 100,
+        "speed" => 20,
+    ],
+    [
+        "name" => "ferrari",
+        "capacity" => 2,
+        "price" => 300,
+        "speed" => 50,
+    ],
+];
+
+//ループ：$arrCarの数
+foreach ($arrCar as $key => $value) {
+    $car = new Car($value["name"], $value["capacity"], $value["price"], $value["speed"]);
+    output($car->name, $car->capacity, $car->price, $car->speed);
+}
+
+/*
 //Honda
 $honda = new Car('honda', 7, 150, 20,);
 output($honda->name, $honda->capacity, $honda->price, $honda->speed);
@@ -51,3 +79,4 @@ output($nissan->name, $nissan->capacity, $nissan->price, $nissan->speed);
 //Ferrari
 $ferrari = new Car('ferrari', 2, 300, 50);
 output($ferrari->name, $ferrari->capacity, $ferrari->price, $ferrari->speed);
+*/

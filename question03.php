@@ -34,10 +34,55 @@ function output($proName, $proNnumber, $proPrice){
     echo "\n";
 }
 
+//問題文を満たすように、任意の値を使用
+$arrCar = [
+    [
+        "name" => "honda",
+        "capacity" => 7,
+        "price" => rand(251, 350),  
+        "speed" => 20,
+    ],
+    [
+        "name" => "nissan",
+        "capacity" => 5,
+        "price" => rand(100, 250),
+        "speed" => 20,
+    ],
+    [
+        "name" => "ferrari",
+        "capacity" => 2,
+        "price" => rand(351, 500),
+        "speed" => 50,
+    ],
+];
+
 //配列
 $arrNum = [];  //生産台数
 $arrTotal = [];  //生産金額
 
+//ループ：$arrCarの数
+foreach ($arrCar as $key => $value) {
+    //生産台数：10~50台
+    $random = rand(10, 50);
+
+    //インスタンス作成
+    $car = new Car($value["name"], $value["capacity"], $value["price"], $value["speed"]);
+
+    //結果を出力
+    output($car->name, $random, $car->price);
+
+    //各配列に値を入れておく
+    $arrNum[] = $random;
+    $arrTotal[] = $random * $car->price;
+
+}
+
+//計算, 表示
+echo "\n";
+echo "合計金額：", array_sum($arrTotal), "万円\n";
+echo "平均金額：", array_sum($arrTotal)/array_sum($arrNum), "万円\n";
+
+/*
 //Honda
 $random = rand(10, 50);
 $honda = new Car('honda', 7, rand(251, 350), 20,);
@@ -58,8 +103,4 @@ $ferrari = new Car('ferrari', 2, rand(351, 500), 50);
 output($ferrari->name, $random, $ferrari->price);
 $arrNum[] = $random;
 $arrTotal[] = $random * $ferrari->price;
-
-//計算,表示
-echo "\n";
-echo "合計金額：", array_sum($arrTotal), "万円\n";
-echo "平均金額：", array_sum($arrTotal)/array_sum($arrNum), "万円\n";
+*/
