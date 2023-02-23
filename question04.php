@@ -6,6 +6,9 @@ class Car {
     public $capacity;
     public $price;
     public $speed;
+
+    //定数
+    const DOWN_RATE = 0.05;
     
     //アクセル
     public function accelerator(){
@@ -31,7 +34,7 @@ class Car {
         $rideNum = rand(1, $this->capacity);  //1~定員
 
         //低下率
-        $rate = $rideNum * 0.05;
+        $rate = $rideNum * self::DOWN_RATE;
 
         //加速性能
         $this->speed = $this->speed * (1 - $rate);
@@ -48,7 +51,7 @@ class Nissan extends Car{
         $rideNum = rand(1, $this->capacity);  //1~定員
 
         //低下率
-        $rate = $rideNum * 0.05;
+        $rate = $rideNum * self::DOWN_RATE;
 
         //Maxが性能の60% → 低下率は最低でも40%
         if ($rate < 0.4) {
@@ -56,7 +59,7 @@ class Nissan extends Car{
         }
 
         //加速性能
-        $this->speed = $this->speed * (1 - $rate);
+        $this->speed *= (1 - $rate);
 
         //返す
         return [$rideNum, $rate];
@@ -68,11 +71,16 @@ class Ferrari extends Car{
 
     public $height = 0;
 
+    //定数
+    const HEIGHT_UP = 40;
+    const HEIGHT_DOWN = 0;
+    const SPEED_RATE = 0.8;
+
     //関数：リフトアップ
     public function liftUp(){
-        if ($this->height === 0) {
-            $this->height = 40;
-            $this->speed = $this->speed * 0.8;
+        if ($this->height === self::HEIGHT_DOWN) {
+            $this->height = self::HEIGHT_UP;
+            $this->speed *= self::SPEED_RATE;
             return "リフトアップ";
         } else {
             return "リフトアップ済み";
@@ -81,14 +89,14 @@ class Ferrari extends Car{
 
     //関数：リフトダウン
     public function liftDown(){
-        if ($this->height === 40) {
-            $this->height = 0;
-            $this->speed = $this->speed / 0.8;
+        if ($this->height === self::HEIGHT_UP) {
+            $this->height = self::HEIGHT_DOWN;
+            $this->speed /= self::SPEED_RATE;
             return "リフトダウン";
         } else {
             return "リフトダウン済み";
         }  
-    }
+    }    
 }
 
 //表示：結果
@@ -145,23 +153,6 @@ foreach ($arrCar as $key => $value) {
     //出力
     output($car->name, $result[0], $result[1], $car->speed);
 
+    //test
+    //var_dump($car);
 }
-
-/*
-//インスタンス作成用
-//Honda
-$honda = new Car('honda', 7, rand(251, 350), 20);  //車種名,定員,価格,加速度
-$result = $honda->calculation();
-output($honda->name, $result[0], $result[1], $honda->speed);
-
-//Nissan
-$nissan = new Nissan('nissan', 5, rand(100, 250), 20);
-$result = $nissan->calculation();
-output($nissan->name, $result[0], $result[1], $nissan->speed);
-
-//Ferrari
-$ferrari = new Ferrari('ferrari', 2, rand(351, 500), 50);
-$ferrari->liftUp();
-$result = $ferrari->calculation();
-output($ferrari->name, $result[0], $result[1], $ferrari->speed);
-*/

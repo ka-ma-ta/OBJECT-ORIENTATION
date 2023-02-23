@@ -6,12 +6,16 @@ class Car {
     public $capacity;
     public $price;
     public $speed;
+
+    //定数
+    const ACCELERATION_RATE = 10;
+    const DOWN_RATE = 0.05;
     
     //アクセル
     public function accelerator($subDistance){
         if ($subDistance > 0) {
             //距離-加速度*10秒
-            return $subDistance-$this->speed * 10;
+            return $subDistance - $this->speed * self::ACCELERATION_RATE;
         } else {
             //返す
             return $subDistance;
@@ -38,13 +42,13 @@ class Car {
         $rideNum = rand(1, $this->capacity);  //1~定員
 
         //低下率
-        $rate = $rideNum * 0.05;
+        $rate = $rideNum * self::DOWN_RATE;
 
         //加速性能
-        $this->speed = $this->speed * (1 - $rate);
+        $this->speed *= (1 - $rate);
 
         //返す
-        return [$rideNum, $rate * 100];
+        return [$rideNum, $rate];
     } 
 }
 
@@ -55,7 +59,7 @@ class Nissan extends Car{
         $rideNum = rand(1, $this->capacity);  //1~定員
 
         //低下率
-        $rate = $rideNum * 0.05;
+        $rate = $rideNum * self::DOWN_RATE;
 
         //Maxが性能の60%
         if ($rate < 0.4) {
@@ -66,7 +70,7 @@ class Nissan extends Car{
         $this->speed = $this->speed * (1 - $rate);
 
         //返す
-        return [$rideNum, $rate * 100];
+        return [$rideNum, $rate];
     } 
 }
 
@@ -75,11 +79,16 @@ class Ferrari extends Car{
 
     public $height = 0;
 
+    //定数
+    const HEIGHT_UP = 40;
+    const HEIGHT_DOWN = 0;
+    const SPEED_RATE = 0.8;
+
     //関数：リフトアップ
     public function liftUp(){
-        if ($this->height === 0) {
-            $this->height = 40;
-            $this->speed = $this->speed * 0.8;
+        if ($this->height === self::HEIGHT_DOWN) {
+            $this->height = self::HEIGHT_UP;
+            $this->speed *= self::SPEED_RATE;
             return "リフトアップ";
         } else {
             return "リフトアップ済み";
@@ -88,55 +97,32 @@ class Ferrari extends Car{
 
     //関数：リフトダウン
     public function liftDown(){
-        if ($this->height === 40) {
-            $this->height = 0;
-            $this->speed = $this->speed / 0.8;
+        if ($this->height === self::HEIGHT_UP) {
+            $this->height = self::HEIGHT_DOWN;
+            $this->speed /= self::SPEED_RATE;
             return "リフトダウン";
         } else {
             return "リフトダウン済み";
         }  
-    }
+    }    
 }
 
 //距離：任意
 const DISTANCE = 1000;  //単位：メートル
 
-//アクセルrブレーキの判定
+//アクセルorブレーキの判定
 const JUDGE_BRAKE = 1;
 
 //全車ゴールしたかの判定
 const JUDGE_GOAL = True;
 
-//問題文を満たすように、任意の値を使用
+//配列：車名, 残りの距離, 回数
 $arrCar = [
-    [
-        "name" => "honda",
-        "capacity" => 7,
-        "price" => rand(251, 350),  
-        "speed" => 20,
-    ],
-    [
-        "name" => "nissan",
-        "capacity" => 5,
-        "price" => rand(100, 250),
-        "speed" => 20,
-    ],
-    [
-        "name" => "ferrari",
-        "capacity" => 2,
-        "price" => rand(351, 500),
-        "speed" => 50,
-    ],
-    [
-        "name" => "toyota",
-        "capacity" => 5,
-        "price" => rand(200, 300),
-        "speed" => 1.5 * (300 / 10),  //加速性能=1.5*(価格/10) 
-    ],
+    ["name"=>"Honda", "dis"=>1000, "count"=>0],
+    ["name"=>"Nissan", "dis"=>1000, "count"=>0],
+    ["name"=>"Ferrari", "dis"=>1000, "count"=>0],
+    ["name"=>"Toyota", "dis"=>1000, "count"=>0],
 ];
-
-//配列：インスタンス, 残りの距離, ゴールにかかった回数
-$arrInstance = [];
 
 //途中経過表示用関数
 function Commentary($subname, $subdistance){
@@ -148,106 +134,6 @@ function Commentary($subname, $subdistance){
 }
 
 //インスタンス作成
-foreach ($arrCar as $key => $value) {
-    //インスタンス作成
-    switch($value["name"]){
-        case 'nissan':
-            $car = new Nissan($value["name"], $value["capacity"], $value["price"], $value["speed"]);
-            break;
-
-        case 'ferrari':
-            $car = new Ferrari($value["name"], $value["capacity"], $value["price"], $value["speed"]);
-            $car->liftUp();  //ここではリフトアップすると想定
-            break;
-
-        default;
-            $car = new Car($value["name"], $value["capacity"], $value["price"], $value["speed"]);
-    }
-
-    //計算
-    $result = $car->calculation();
-
-    //配列に格納
-    $arrInstance[] = ["instance" => $car, "dis" => 1000, "count" => 0];
-}
-
-var_dump($arrInstance);  //test
-
-//ループ処理判定用FLG：ゴールしていない車がいる限り1
-$flg = JUDGE_GOAL;
-
-//スタート
-echo "\n----------レース開始----------\n\n";
-
-//回数カウント用
-$count = 1;
-
-//ループ：全車がゴールするまで
-//while ($flg === JUDGE_GOAL):
-for ($i=0; $i < 10; $i++) { 
-    //ループ：$arrInstanceの数
-    foreach ($arrInstance as $key => $value) {
-        //アクセルorブレーキ
-        if (rand(1,3) != JUDGE_BRAKE) { 
-            $value["dis"] = $value["instance"]->accelerator($value["dis"]);
-        } else {
-            $value["dis"] = $value["instance"]->brake($value["dis"]);
-        }
-
-        //ゴールにかかった回数更新
-        if ($value["dis"] <= 0 && $value["count"] === 0) {
-            $value["count"] = $count;
-        }
-
-        //途中経過表示
-        Commentary($value["instance"]->name, $value["dis"]);
-
-    }
-
-    var_dump($arrInstance);  //test
-    
-    echo "\n";
-    
-    //全車ゴールしたか確認
-    $test = 0;
-    foreach ($arrInstance as $key => $value) {
-        $test = $test + $value["dis"];
-        echo "\n";
-        echo $test;
-        echo "\n";
-    }
-    
-    if ($test <= 0) {
-        $flg = False;
-    }
-    
-    //回数更新
-    $count = $count + 1;
-}
-    
-//endwhile;
-
-//配列の並び変え：countの昇順
-array_multisort(array_column($arrInstance, "count"), SORT_ASC, $arrInstance);
-
-//終了
-echo "\n----------レース終了----------\n\n";
-
-//結果表示
-echo "順位\n";
-foreach ($arrInstance as $key => $value) {
-    echo $key+ 1 , "位：", $value["instance"]->name, "\n";
-}
-
-/* 
-//配列：車名, 残りの距離, 回数
-$arrCar = [
-    ["name"=>"Honda", "dis"=>DISTANCE, "count"=>0],
-    ["name"=>"Nissan", "dis"=>DISTANCE, "count"=>0],
-    ["name"=>"Ferrari", "dis"=>DISTANCE, "count"=>0],
-    ["name"=>"Toyota", "dis"=>DISTANCE, "count"=>0],
-];
-
 //Honda
 $honda = new Car('honda', 7, rand(251, 350), 20);  //車種名,定員,価格,加速度
 $result = $honda->calculation();
@@ -265,50 +151,87 @@ $result = $ferrari->calculation();
 $random = rand(200, 300);
 $toyota = new Car('toyota', 5, $random, 1.5 * ($random / 10));  //加速性能=1.5*(価格/10)  比例
 $result = $toyota->calculation();
-*/
 
-/*
-//nissan
-if (rand(1,3) != 1) {
-    $arrCar[1]["dis"] = $nissan->accelerator($arrCar[1]["dis"]);
-} else {
-    $arrCar[1]["dis"] = $nissan->brake($arrCar[1]["dis"]);
-}   
+//ループ処理判定用FLG：ゴールしていない車がいる限り
+$flg = JUDGE_GOAL;
 
-if ($arrCar[1]["dis"] <= 0 && $arrCar[1]["count"] === 0) {
-    $arrCar[1]["count"] = $count;
+//スタート
+echo "\n----------レース開始----------\n\n";
+
+//回数カウント用
+$count = 1;
+
+//ループ：全車がゴールするまで
+ //アクセルの確立2/3, ブレーキの確立1/3
+ while ($flg == 1):
+    //honda
+    if (rand(1,3)!=1) { 
+        $arrCar[0]["dis"] = $honda->accelerator($arrCar[0]["dis"]);
+    } else {
+        $arrCar[0]["dis"] = $honda->brake($arrCar[0]["dis"]);
+    }
+    
+    if ($arrCar[0]["dis"] <= 0 && $arrCar[0]["count"] === 0) {
+        $arrCar[0]["count"] = $count;
+    }
+
+    //nissan
+    if (rand(1,3)!=1) {
+        $arrCar[1]["dis"] = $nissan->accelerator($arrCar[1]["dis"]);
+    } else {
+        $arrCar[1]["dis"] = $nissan->brake($arrCar[1]["dis"]);
+    }   
+
+    if ($arrCar[1]["dis"] <= 0 && $arrCar[1]["count"] === 0) {
+        $arrCar[1]["count"] = $count;
+    }
+
+    //ferrari
+    if (rand(1,3)!=1) {
+        $arrCar[2]["dis"] = $ferrari->accelerator($arrCar[2]["dis"]);
+    } else {
+        $arrCar[2]["dis"] = $ferrari->brake($arrCar[2]["dis"]);
+    }   
+
+    if ($arrCar[2]["dis"] <= 0 && $arrCar[2]["count"] === 0) {
+        $arrCar[2]["count"] = $count;
+    }
+
+    //toyota
+    if (rand(1,3)!=1) {
+        $arrCar[3]["dis"] = $toyota->accelerator($arrCar[3]["dis"]);
+    } else {
+        $arrCar[3]["dis"] = $toyota->brake($arrCar[3]["dis"]);
+    } 
+
+    if ($arrCar[3]["dis"] <= 0 && $arrCar[3]["count"] === 0) {
+        $arrCar[3]["count"] = $count;
+    }
+
+    //途中経過
+    echo "\n";
+    foreach ($arrCar as $key => $value) {
+        Commentary($value["name"], $value["dis"]);
+    }
+    
+    //確認：全車ゴールしたらFLG更新→ループ終了
+    if ($arrCar[0]["dis"] <= 0 && $arrCar[1]["dis"] <= 0 && $arrCar[2]["dis"] <= 0 && $arrCar[3]["dis"] <= 0) {
+        $flg = 0;
+    }
+
+    //回数更新
+    $count = $count + 1;
+
+endwhile;
+
+//配列の並び変え
+array_multisort(array_column($arrCar, "count"), SORT_ASC, $arrCar);
+
+//終了
+echo "\n----------レース終了----------\n\n";
+
+//結果表示
+echo "順位\n";
+foreach ($arrCar as $key => $value) {
+    echo $key+ 1 , "位：", $value["name"], "\n";
 }
-
-//ferrari
-if (rand(1,3) != 1) {
-    $arrCar[2]["dis"] = $ferrari->accelerator($arrCar[2]["dis"]);
-} else {
-    $arrCar[2]["dis"] = $ferrari->brake($arrCar[2]["dis"]);
-}   
-
-if ($arrCar[2]["dis"] <= 0 && $arrCar[2]["count"] === 0) {
-    $arrCar[2]["count"] = $count;
-}
-
-//toyota
-if (rand(1,3) != 1) {
-    $arrCar[3]["dis"] = $toyota->accelerator($arrCar[3]["dis"]);
-} else {
-    $arrCar[3]["dis"] = $toyota->brake($arrCar[3]["dis"]);
-} 
-
-if ($arrCar[3]["dis"] <= 0 && $arrCar[3]["count"] === 0) {
-    $arrCar[3]["count"] = $count;
-}
-
-//途中経過
-Commentary("Honda", $arrCar[0]["dis"]);
-Commentary("Nissan", $arrCar[1]["dis"]);
-Commentary("Ferrari", $arrCar[2]["dis"]);
-Commentary("Toyota", $arrCar[3]["dis"]);    
-
-echo "1位：", $arrCar[0]["name"], "\n";
-echo "2位：", $arrCar[1]["name"], "\n";
-echo "3位：", $arrCar[2]["name"], "\n";
-echo "4位：", $arrCar[3]["name"], "\n";
-*/

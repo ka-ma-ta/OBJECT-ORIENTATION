@@ -66,17 +66,3 @@ foreach ($arrCar as $key => $value) {
     $car = new Car($value["name"], $value["capacity"], $value["price"], $value["speed"]);
     output($car->name, $car->capacity, $car->price, $car->speed);
 }
-
-/*
-//Honda
-$honda = new Car('honda', 7, 150, 20,);
-output($honda->name, $honda->capacity, $honda->price, $honda->speed);
-
-//Nissan
-$nissan = new Car('nissan', 5, 100, 20);
-output($nissan->name, $nissan->capacity, $nissan->price, $nissan->speed);
-
-//Ferrari
-$ferrari = new Car('ferrari', 2, 300, 50);
-output($ferrari->name, $ferrari->capacity, $ferrari->price, $ferrari->speed);
-*/

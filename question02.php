@@ -31,11 +31,16 @@ class Ferrari extends Car{
 
     public $height = 0;
 
+    //定数
+    const HEIGHT_UP = 40;
+    const HEIGHT_DOWN = 0;
+    const SPEED_RATE = 0.8;
+
     //関数：リフトアップ
     public function liftUp(){
-        if ($this->height === 0) {
-            $this->height = 40;
-            $this->speed = $this->speed * 0.8;
+        if ($this->height === self::HEIGHT_DOWN) {
+            $this->height = self::HEIGHT_UP;
+            $this->speed *= self::SPEED_RATE;
             return "リフトアップ";
         } else {
             return "リフトアップ済み";
@@ -44,9 +49,9 @@ class Ferrari extends Car{
 
     //関数：リフトダウン
     public function liftDown(){
-        if ($this->height === 40) {
-            $this->height = 0;
-            $this->speed = $this->speed / 0.8;
+        if ($this->height === self::HEIGHT_UP) {
+            $this->height = self::HEIGHT_DOWN;
+            $this->speed /= self::SPEED_RATE;
             return "リフトダウン";
         } else {
             return "リフトダウン済み";
