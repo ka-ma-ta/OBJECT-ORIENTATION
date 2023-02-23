@@ -165,7 +165,7 @@ $count = 1;
  //アクセルの確立2/3, ブレーキの確立1/3
  while ($flg == 1):
     //honda
-    if (rand(1,3)!=1) { 
+    if (rand(1,3) != JUDGE_BRAKE) { 
         $arrCar[0]["dis"] = $honda->accelerator($arrCar[0]["dis"]);
     } else {
         $arrCar[0]["dis"] = $honda->brake($arrCar[0]["dis"]);
@@ -176,7 +176,7 @@ $count = 1;
     }
 
     //nissan
-    if (rand(1,3)!=1) {
+    if (rand(1,3) != JUDGE_BRAKE) {
         $arrCar[1]["dis"] = $nissan->accelerator($arrCar[1]["dis"]);
     } else {
         $arrCar[1]["dis"] = $nissan->brake($arrCar[1]["dis"]);
@@ -187,7 +187,7 @@ $count = 1;
     }
 
     //ferrari
-    if (rand(1,3)!=1) {
+    if (rand(1,3) != JUDGE_BRAKE) {
         $arrCar[2]["dis"] = $ferrari->accelerator($arrCar[2]["dis"]);
     } else {
         $arrCar[2]["dis"] = $ferrari->brake($arrCar[2]["dis"]);
@@ -198,7 +198,7 @@ $count = 1;
     }
 
     //toyota
-    if (rand(1,3)!=1) {
+    if (rand(1,3) != JUDGE_BRAKE) {
         $arrCar[3]["dis"] = $toyota->accelerator($arrCar[3]["dis"]);
     } else {
         $arrCar[3]["dis"] = $toyota->brake($arrCar[3]["dis"]);
