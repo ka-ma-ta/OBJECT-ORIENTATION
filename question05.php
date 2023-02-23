@@ -227,7 +227,8 @@ while ($flg == JUDGE_GOAL):
 endwhile;
 
 //配列の並び変え
-array_multisort(array_column($arrCar, "count"), SORT_ASC, $arrCar);
+$sortKey = array_column($arrCar, 'count');
+array_multisort($sortKey, SORT_ASC, $arrCar);
 
 //終了
 echo "\n----------レース終了----------\n\n";
