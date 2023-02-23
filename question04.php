@@ -8,6 +8,7 @@ class Car {
     public $speed;
 
     //定数
+    //低下率
     const DOWN_RATE = 0.05;
     
     //アクセル

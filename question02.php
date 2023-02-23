@@ -32,8 +32,11 @@ class Ferrari extends Car{
     public $height = 0;
 
     //定数
+    //車高：40mm
     const HEIGHT_UP = 40;
+    //車高：0mm
     const HEIGHT_DOWN = 0;
+    //加速度の変化
     const SPEED_RATE = 0.8;
 
     //関数：リフトアップ
@@ -59,7 +62,7 @@ class Ferrari extends Car{
     }    
 }
 
-//定数：リフトアップorリフトダウンの判定に用いる
+//定数：1の場合リフトアップ
 const JUDGE_LIFTUP = 1;
 
 //結果を出力する関数

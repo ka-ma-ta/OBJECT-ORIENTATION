@@ -8,7 +8,9 @@ class Car {
     public $speed;
 
     //定数
+    //アクセルを踏む秒数
     const ACCELERATION_RATE = 10;
+    //低下率
     const DOWN_RATE = 0.05;
     
     //アクセル
@@ -110,11 +112,11 @@ class Ferrari extends Car{
 //距離：任意
 const DISTANCE = 1000;  //単位：メートル
 
-//アクセルorブレーキの判定
+//ブレーキの判定
 const JUDGE_BRAKE = 1;
 
-//全車ゴールしたかの判定
-const JUDGE_GOAL = True;
+//全車ゴールしたかの判定(0:全てゴール　1:レース中)
+const JUDGE_GOAL = 1;
 
 //配列：車名, 残りの距離, 回数
 $arrCar = [
@@ -162,15 +164,15 @@ echo "\n----------レース開始----------\n\n";
 $count = 1;
 
 //ループ：全車がゴールするまで
- //アクセルの確立2/3, ブレーキの確立1/3
- while ($flg == 1):
+//アクセルの確立2/3, ブレーキの確立1/3
+while ($flg == 1):
     //honda
     if (rand(1,3) != JUDGE_BRAKE) { 
         $arrCar[0]["dis"] = $honda->accelerator($arrCar[0]["dis"]);
     } else {
         $arrCar[0]["dis"] = $honda->brake($arrCar[0]["dis"]);
     }
-    
+
     if ($arrCar[0]["dis"] <= 0 && $arrCar[0]["count"] === 0) {
         $arrCar[0]["count"] = $count;
     }
@@ -213,7 +215,7 @@ $count = 1;
     foreach ($arrCar as $key => $value) {
         Commentary($value["name"], $value["dis"]);
     }
-    
+
     //確認：全車ゴールしたらFLG更新→ループ終了
     if ($arrCar[0]["dis"] <= 0 && $arrCar[1]["dis"] <= 0 && $arrCar[2]["dis"] <= 0 && $arrCar[3]["dis"] <= 0) {
         $flg = 0;
