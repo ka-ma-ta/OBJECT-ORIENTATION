@@ -128,6 +128,7 @@ $arrCar = [
 
 //途中経過表示用関数
 function Commentary($subname, $subdistance){
+    //残りの距離が0以上：True
     if ($subdistance > 0) {
         echo $subname,"：後",$subdistance,"m\n";
     } else {
@@ -154,6 +155,12 @@ $random = rand(200, 300);
 $toyota = new Car('toyota', 5, $random, 1.5 * ($random / 10));  //加速性能=1.5*(価格/10)  比例
 $result = $toyota->calculation();
 
+//定数
+const HONDA = 0;
+const NISSAN = 1;
+const FERRARI = 2;
+const TOYOTA = 3;
+
 //ループ処理判定用FLG：ゴールしていない車がいる限り
 $flg = JUDGE_GOAL;
 
@@ -168,46 +175,46 @@ $count = 1;
 while ($flg == JUDGE_GOAL):
     //honda
     if (rand(1,3) != JUDGE_BRAKE) { 
-        $arrCar[0]["dis"] = $honda->accelerator($arrCar[0]["dis"]);
+        $arrCar[HONDA]["dis"] = $honda->accelerator($arrCar[HONDA]["dis"]);
     } else {
-        $arrCar[0]["dis"] = $honda->brake($arrCar[0]["dis"]);
+        $arrCar[HONDA]["dis"] = $honda->brake($arrCar[HONDA]["dis"]);
     }
 
-    if ($arrCar[0]["dis"] <= 0 && $arrCar[0]["count"] === 0) {
-        $arrCar[0]["count"] = $count;
+    if ($arrCar[HONDA]["dis"] <= 0 && $arrCar[HONDA]["count"] === 0) {
+        $arrCar[HONDA]["count"] = $count;
     }
 
     //nissan
     if (rand(1,3) != JUDGE_BRAKE) {
-        $arrCar[1]["dis"] = $nissan->accelerator($arrCar[1]["dis"]);
+        $arrCar[NISSAN]["dis"] = $nissan->accelerator($arrCar[NISSAN]["dis"]);
     } else {
-        $arrCar[1]["dis"] = $nissan->brake($arrCar[1]["dis"]);
+        $arrCar[NISSAN]["dis"] = $nissan->brake($arrCar[NISSAN]["dis"]);
     }   
 
-    if ($arrCar[1]["dis"] <= 0 && $arrCar[1]["count"] === 0) {
-        $arrCar[1]["count"] = $count;
+    if ($arrCar[NISSAN]["dis"] <= 0 && $arrCar[NISSAN]["count"] === 0) {
+        $arrCar[NISSAN]["count"] = $count;
     }
 
     //ferrari
     if (rand(1,3) != JUDGE_BRAKE) {
-        $arrCar[2]["dis"] = $ferrari->accelerator($arrCar[2]["dis"]);
+        $arrCar[FERRARI]["dis"] = $ferrari->accelerator($arrCar[FERRARI]["dis"]);
     } else {
-        $arrCar[2]["dis"] = $ferrari->brake($arrCar[2]["dis"]);
+        $arrCar[FERRARI]["dis"] = $ferrari->brake($arrCar[FERRARI]["dis"]);
     }   
 
-    if ($arrCar[2]["dis"] <= 0 && $arrCar[2]["count"] === 0) {
-        $arrCar[2]["count"] = $count;
+    if ($arrCar[FERRARI]["dis"] <= 0 && $arrCar[FERRARI]["count"] === 0) {
+        $arrCar[FERRARI]["count"] = $count;
     }
 
     //toyota
     if (rand(1,3) != JUDGE_BRAKE) {
-        $arrCar[3]["dis"] = $toyota->accelerator($arrCar[3]["dis"]);
+        $arrCar[TOYOTA]["dis"] = $toyota->accelerator($arrCar[TOYOTA]["dis"]);
     } else {
-        $arrCar[3]["dis"] = $toyota->brake($arrCar[3]["dis"]);
+        $arrCar[TOYOTA]["dis"] = $toyota->brake($arrCar[TOYOTA]["dis"]);
     } 
 
-    if ($arrCar[3]["dis"] <= 0 && $arrCar[3]["count"] === 0) {
-        $arrCar[3]["count"] = $count;
+    if ($arrCar[TOYOTA]["dis"] <= 0 && $arrCar[TOYOTA]["count"] === 0) {
+        $arrCar[TOYOTA]["count"] = $count;
     }
 
     //途中経過
@@ -217,7 +224,7 @@ while ($flg == JUDGE_GOAL):
     }
 
     //確認：全車ゴールしたらFLG更新→ループ終了
-    if ($arrCar[0]["dis"] <= 0 && $arrCar[1]["dis"] <= 0 && $arrCar[2]["dis"] <= 0 && $arrCar[3]["dis"] <= 0) {
+    if ($arrCar[HONDA]["dis"] <= 0 && $arrCar[NISSAN]["dis"] <= 0 && $arrCar[FERRARI]["dis"] <= 0 && $arrCar[TOYOTA]["dis"] <= 0) {
         $flg = 0;
     }
 
@@ -238,3 +245,27 @@ echo "順位\n";
 foreach ($arrCar as $key => $value) {
     echo $key+ 1 , "位：", $value["name"], "\n";
 }
+
+/*
+//問題文を満たすように、任意の値を使用
+$arrCar = [
+    [
+        "name" => "honda",
+        "capacity" => 7,
+        "price" => rand(251, 350),  
+        "speed" => 20,
+    ],
+    [
+        "name" => "nissan",
+        "capacity" => 5,
+        "price" => rand(100, 250),
+        "speed" => 20,
+    ],
+    [
+        "name" => "ferrari",
+        "capacity" => 2,
+        "price" => rand(351, 500),
+        "speed" => 50,
+    ],
+];
+*/
