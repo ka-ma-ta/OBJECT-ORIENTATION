@@ -165,7 +165,7 @@ $count = 1;
 
 //ループ：全車がゴールするまで
 //アクセルの確立2/3, ブレーキの確立1/3
-while ($flg == 1):
+while ($flg == JUDGE_GOAL):
     //honda
     if (rand(1,3) != JUDGE_BRAKE) { 
         $arrCar[0]["dis"] = $honda->accelerator($arrCar[0]["dis"]);
