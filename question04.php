@@ -100,6 +100,10 @@ class Ferrari extends Car{
     }    
 }
 
+//結果表示用
+const RESULT_NAME = 0;
+const RESULT_RATE = 1;
+
 //表示：結果
 function output($reName, $relNum, $reRate, $reSpeed){
 echo $reName, "\n";
@@ -152,7 +156,7 @@ foreach ($arrCar as $key => $value) {
     $result = $car->calculation();
 
     //出力
-    output($car->name, $result[0], $result[1], $car->speed);
+    output($car->name, $result[RESULT_NAME], $result[RESULT_RATE], $car->speed);
 
     //test
     //var_dump($car);
